@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ورشة الألمنيوم - صفحة رئيسية</title>
+
+  <style>
+    :root{
+      --dark-metallic:#2B2F33;
+      --steel-gray:#6B7176;
+      --chrome-highlight:#C9CDD0;
+      --cool-blue:#2E6FA7;
+      --glass-blue:#5DA8D8;
+      --light-frost:#F2F4F6;
+      --card-radius:12px;
+      --frame-border:6px;
+      --max-frame-height:320px;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;color:var(--light-frost);min-height:100vh;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(45,78,100,0.08), transparent 10%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)),
+        var(--dark-metallic);
+    }
+
+    /* top strip - with contact and map icons + labels */
+    .top-strip{
+      position:fixed;top:0;left:0;right:0;height:68px;
+      background: linear-gradient(90deg, var(--cool-blue), rgba(13,55,86,0.92));
+      color:var(--light-frost);display:flex;align-items:center;justify-content:center;padding:0 16px;z-index:40;
+      box-shadow:0 8px 30px rgba(0,0,0,0.55);
+    }
+    .top-strip .left-acts{position:absolute;left:14px;display:flex;gap:18px;align-items:center}
+    .icon-btn{
+      display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--light-frost);
+      font-size:13px;
+    }
+    .icon-circle{
+      width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.06));
+      border:2px solid rgba(255,255,255,0.06);
+      box-shadow:0 6px 14px rgba(0,0,0,0.35);
+      font-size:18px;
+    }
+    .top-strip .title{font-weight:700;letter-spacing:0.6px}
+
+    /* layout */
+    .container{max-width:1200px;margin:96px auto 60px;display:grid;grid-template-columns:320px 1fr;gap:24px;padding:0 16px;position:relative;z-index:10}
+    .left{display:flex;flex-direction:column;gap:22px}
+    .logo-frame{background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+      padding:18px;border-radius:140px;width:220px;height:220px;align-self:center;display:flex;align-items:center;justify-content:center;position:relative;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);border: 4px solid var(--chrome-highlight);
+    }
+    .logo-frame img{width:160px;height:160px;object-fit:contain;border-radius:50%;background:linear-gradient(180deg,var(--light-frost),rgba(255,255,255,0.9));padding:6px;box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+
+    .services{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
+      color:var(--light-frost);padding:12px;border-radius:12px;box-shadow: 0 12px 30px rgba(0,0,0,0.55);min-height:160px;display:flex;flex-direction:column;position:relative;border:1px solid rgba(255,255,255,0.03);
+    }
+    .services h3{margin:0 0 8px 0;font-size:20px;color:var(--light-frost)}
+    .services .desc{margin:0;color:var(--light-frost);line-height:1.5;padding-right:6px;max-height:120px;overflow-y:auto;scroll-behavior:smooth}
+    .services .desc::-webkit-scrollbar{width:8px} .services .desc::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:8px}
+
+    .right{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;gap:20px}
+    .frame{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:var(--frame-border) solid var(--chrome-highlight);box-shadow: 0 18px 36px rgba(0,0,0,0.55);transition: transform .22s ease, box-shadow .22s ease;}
+    .frame .img-wrap{display:flex;align-items:center;justify-content:center;border-radius:8px;overflow:hidden;padding:6px}
+    .frame img{display:block;max-width:100%;height:auto;object-fit:contain}
+    .frame .caption{padding:8px;border-radius:8px;font-size:14px;color:var(--light-frost);display:flex;align-items:center;gap:8px;justify-content:center;border:1px solid rgba(255,255,255,0.03)}
+    .frame .badge-num{position:absolute;top:12px;left:12px;background:linear-gradient(180deg,var(--cool-blue),var(--glass-blue));border:3px solid var(--chrome-highlight);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+
+    /* gallery */
+    .controls-row{display:flex;gap:12px;align-items:center}
+    .btn{background:linear-gradient(180deg,var(--cool-blue),var(--glass-blue));color:white;padding:10px 14px;border-radius:8px;cursor:pointer;border:none;font-weight:700}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--light-frost)}
+
+    .gallery-page{display:none;max-width:1100px;margin:90px auto;padding:16px;color:var(--dark-metallic);z-index:20}
+    .albums-row{display:flex;gap:12px;margin-bottom:16px}
+    .album-pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);cursor:pointer;border:1px solid rgba(255,255,255,0.02);color:var(--light-frost)}
+    .album-pill.active{background:linear-gradient(90deg,var(--cool-blue),var(--glass-blue));color:white}
+
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+    .gallery-item{background:linear-gradient(180deg,#fff,#f7f7f8);padding:6px;border-radius:10px;box-shadow:0 12px 28px rgba(0,0,0,0.12);position:relative;display:flex;flex-direction:column;gap:8px;color:var(--dark-metallic)}
+    .thumb{width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f4f4f4;cursor:pointer}
+    .thumb img{max-width:100%;max-height:100%;object-fit:contain}
+
+    /* lightbox */
+    #lightboxOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;visibility:hidden;opacity:0;transition:opacity .18s ease, visibility .18s;}
+    #lightboxOverlay.show{visibility:visible;opacity:1}
+    #lightboxOverlay .lightbox-img{max-width:calc(100% - 80px);max-height:calc(100% - 80px);box-shadow:0 20px 60px rgba(0,0,0,0.6);border-radius:8px}
+    #lightboxOverlay .close-btn{position:absolute;top:18px;left:18px;background:rgba(255,255,255,0.9);color:#222;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+
+    @media (max-width:900px){.container{grid-template-columns:1fr;} .logo-frame{width:160px;height:160px} .right{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.right{grid-template-columns:1fr} .logo-frame{width:140px;height:140px} .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+  </style>
+</head>
+
+<body>
+
+  <div class="top-strip">
+    <div class="left-acts">
+      <!-- contact -->
+      <a id="contactLink" class="icon-btn" href="#" target="_blank" rel="noopener">
+        <span class="icon-circle">📞</span>
+        <span style="font-size:12px;">للتواصل</span>
+      </a>
+
+      <!-- map -->
+      <a id="mapLink" class="icon-btn" href="#" target="_blank" rel="noopener">
+        <span class="icon-circle">📍</span>
+        <span style="font-size:12px;">موقعنا</span>
+      </a>
+    </div>
+
+    <div class="title" id="siteTitle">ورشة الألمنيوم - <span id="siteTagline">أبواب، نوافذ، مطابخ، واجهات</span></div>
+  </div>
+
+  <main class="container" id="home">
+    <section class="left">
+      <div class="logo-frame" id="logoFrame" title="شعار الورشة">
+        <img id="logoImg" src="" alt="شعار الورشة">
+      </div>
+
+      <div class="services">
+        <div class="badge-num">3</div>
+        <h3 id="servicesTitle">خدماتنا</h3>
+        <div class="desc" id="servicesDesc" tabindex="0" aria-label="وصف الخدمات">
+          <!-- ستمتلئ من ملف site.json -->
+        </div>
+      </div>
+    </section>
+
+    <section class="right" id="framesRow">
+      <!-- Frames (1..4) يتم إنشاؤها ديناميكياً من data/albums.json -->
+    </section>
+  </main>
+
+  <!-- زر عرض جميع الصور -->
+  <div style="position:fixed;bottom:18px;left:18px;display:flex;gap:10px;z-index:50">
+    <button class="btn" id="viewAllBtn">عرض جميع الصور</button>
+  </div>
+
+  <!-- صفحة المعرض (قراءة فقط) -->
+  <section class="gallery-page" id="galleryPage">
+    <div class="gallery-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="back-home" id="backBtn" title="العودة">⬅</button>
+      </div>
+      <div class="controls-row" aria-hidden="true">
+        <!-- لم نضع أي عناصر إدارة هنا -->
+      </div>
+    </div>
+
+    <div class="albums-row" id="albumsRow"></div>
+    <div id="galleryContent"><div class="gallery-grid" id="galleryGrid"></div></div>
+  </section>
+
+  <!-- lightbox -->
+  <div id="lightboxOverlay" aria-hidden="true">
+    <button class="close-btn" id="lightboxClose">إغلاق</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="تكبير الصورة">
+  </div>
+
+  <script>
+    /* ---------- إعداد القيم الافتراضية والروابط ---------- */
+    // رابط خريطة الورشة الذي أعطيتَه
+    const MAP_URL = "https://maps.app.goo.gl/kDDYqJKvqD54HTmy5";
+
+    // ملف التعريف (سيُحمَل من /data/site.json في المستودع إن وُجد)
+    // مثال افتراضي سيعمل لو لم يتوفر الملف
+    const DEFAULT_SITE = {
+      logo: "/assets/logo.jpg",               // ضع شعارك هنا ضمن repo
+      display_phone: "0558136586",
+      phone_link: "tel:+966558136586",
+      whatsapp: "https://wa.me/966558136586",
+      description_html: `
+        نحن متخصصون في تقديم حلول متكاملة للزجاج والألمنيوم، مع لمسة عصرية وجودة عالية تناسب جميع احتياجاتكم.<br><br>
+        <strong>خدماتنا تشمل:</strong>
+        <ul>
+          <li>زجاج سكريت وأبواب زجاجية.</li>
+          <li>واجهات زجاجية حديثة.</li>
+          <li>مرايا وتصاميم خاصة.</li>
+          <li>أبواب ومكاتب ألمنيوم.</li>
+        </ul>
+      `
+    };
+
+    // ملف الألبومات (سيُحمَل من /data/albums.json في المستودع إن وُجد)
+    // مثيل افتراضي: 4 ألبومات كل واحد برابط صورة placeholder
+    const DEFAULT_ALBUMS = [
+      { name: "غرف زجاج", images: ["/assets/placeholders/doors.jpg"] },
+      { name: "زجاج سكريات", images: ["/assets/placeholders/windows.jpg"] },
+      { name: "مطابخ", images: ["/assets/placeholders/kitchens.jpg"] },
+      { name: "اخرى", images: ["/assets/placeholders/projects.jpg"] }
+    ];
+
+    // helper fetch JSON with fallback
+    async function fetchJsonOrDefault(url, def){
+      try{
+        const res = await fetch(url, {cache: "no-store"});
+        if(!res.ok) throw new Error('no file');
+        const data = await res.json();
+        return data;
+      }catch(e){
+        return def;
+      }
+    }
+
+    // main init: تحميل بيانات الموقع والألبومات ثم رندر
+    (async function init(){
+      const site = await fetchJsonOrDefault('/data/site.json', DEFAULT_SITE);
+      const albums = await fetchJsonOrDefault('/data/albums.json', DEFAULT_ALBUMS);
+
+      // populate header contact and map buttons
+      document.getElementById('logoImg').src = site.logo || DEFAULT_SITE.logo;
+      document.getElementById('servicesDesc').innerHTML = site.description_html || DEFAULT_SITE.description_html;
+
+      const contactLink = document.getElementById('contactLink');
+      contactLink.href = site.whatsapp || DEFAULT_SITE.whatsapp; // يفتح واتساب
+      contactLink.title = "للتواصل عبر واتساب أو اتصال";
+
+      const mapLink = document.getElementById('mapLink');
+      mapLink.href = site.map || MAP_URL;
+      mapLink.target = "_blank";
+
+      // يدعم فتح رقم الاتصال مباشرة ضمن زر الاتصال أيضاً (يمكن تعديله لو تفضل "tel:")
+      contactLink.addEventListener('click', (e) => {
+        // فتح واتساب في نافذة جديدة (الـ href هو عادة رابط wa.me). لا نمنع السلوك.
+      });
+
+      // render frames on home (first image from each album rotates every 3s)
+      renderHomeFrames(albums);
+      // prepare gallery rendering
+      prepareGallery(albums);
+    })();
+
+    /* ---------- رندر الصفحة الرئيسة (4 إطارات) مع سلايدر كل 3 ثواني --------- */
+    let homeTimers = [];
+    function clearHomeTimers(){ homeTimers.forEach(t => clearInterval(t)); homeTimers = []; }
+
+    function renderHomeFrames(albums){
+      clearHomeTimers();
+      const framesRow = document.getElementById('framesRow');
+      framesRow.innerHTML = '';
+      const count = Math.min(4, albums.length);
+      for(let i=0;i<count;i++){
+        const album = albums[i] || { name: `ألبوم ${i+1}`, images: [] };
+        const frame = document.createElement('div'); frame.className = 'frame'; frame.dataset.album = i;
+        const badge = document.createElement('div'); badge.className = 'badge-num'; badge.textContent = i+4;
+        const inner = document.createElement('div'); inner.className = 'inner';
+        const imgWrap = document.createElement('div'); imgWrap.className = 'img-wrap';
+        const img = document.createElement('img'); img.alt = `album-${i}`; img.loading='lazy';
+        imgWrap.appendChild(img);
+        const caption = document.createElement('div'); caption.className='caption'; caption.textContent = album.name || `ألبوم ${i+1}`;
+        inner.appendChild(imgWrap); inner.appendChild(caption);
+        frame.appendChild(badge); frame.appendChild(inner);
+        framesRow.appendChild(frame);
+
+        // initial src (first image or placeholder)
+        const list = (Array.isArray(album.images) && album.images.length>0) ? album.images : ["/assets/placeholders/empty.jpg"];
+        let idx = 0;
+        img.src = list[idx];
+
+        // adjust height after load
+        img.addEventListener('load', ()=> adaptFrameSize(imgWrap, img));
+
+        // rotate every 3s
+        const t = setInterval(()=>{
+          idx = (idx + 1) % list.length;
+          img.src = list[idx];
+        }, 3000);
+        homeTimers.push(t);
+
+        // click -> open album gallery
+        frame.addEventListener('click', ()=> openAlbum(i, albums));
+      }
+    }
+
+    function adaptFrameSize(container,img){
+      const maxH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--max-frame-height')) || 320;
+      const availableW = container.clientWidth || 300;
+      const ratio = (img.naturalHeight||1)/(img.naturalWidth||1);
+      const newH = Math.min(maxH, Math.round(availableW * ratio));
+      container.style.height = newH + 'px';
+    }
+    window.addEventListener('resize', ()=>{ document.querySelectorAll('.img-wrap img').forEach(img=>{ if(img.complete) adaptFrameSize(img.parentElement,img); }) });
+
+    /* ---------- صفحة المعرض (قراءة فقط) ---------- */
+    function prepareGallery(albums){
+      // create album pills and default to album 0
+      const albumsRow = document.getElementById('albumsRow');
+      albumsRow.innerHTML = '';
+      albums.forEach((a,i)=>{
+        const pill = document.createElement('button'); pill.className = 'album-pill'; pill.textContent = a.name || `ألبوم ${i+1}`;
+        pill.addEventListener('click', ()=> openAlbum(i, albums));
+        albumsRow.appendChild(pill);
+      });
+
+      // view all button
+      document.getElementById('viewAllBtn').addEventListener('click', ()=> openAll(albums));
+      document.getElementById('backBtn').addEventListener('click', ()=> showHome());
+    }
+
+    function openAlbum(index, albums){
+      clearHomeTimers();
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('galleryPage').style.display = 'block';
+      renderGalleryGrid(index, albums);
+    }
+    function openAll(albums){
+      clearHomeTimers();
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('galleryPage').style.display = 'block';
+      renderGalleryGrid('all', albums);
+    }
+    function showHome(){
+      document.getElementById('galleryPage').style.display = 'none';
+      document.getElementById('home').style.display = 'grid';
+      // re-init home timers
+      fetch('/data/albums.json').then(r=>r.json()).then(data=> renderHomeFrames(data)).catch(()=>{/* ignore */});
+    }
+
+    function renderGalleryGrid(mode, albums){
+      const galleryGrid = document.getElementById('galleryGrid');
+      galleryGrid.innerHTML = '';
+      let list = [];
+      if(mode === 'all'){
+        albums.forEach((a,ai)=> {
+          (a.images || []).forEach((img,ii)=> list.push({src: img, album: a.name || `ألبوم ${ai+1}`, idx: ii}));
+        });
+      } else {
+        const a = albums[mode] || { images: [] };
+        list = (a.images || []).map((img, idx)=> ({src: img, album: a.name || `ألبوم ${mode+1}`, idx}));
+      }
+
+      if(list.length === 0){
+        galleryGrid.innerHTML = '<div style="color:#fff;">لا توجد صور لعرضها.</div>';
+        return;
+      }
+
+      list.forEach((item)=>{
+        const box = document.createElement('div'); box.className = 'gallery-item';
+        const thumb = document.createElement('div'); thumb.className = 'thumb';
+        const img = document.createElement('img'); img.src = item.src; img.alt = item.album + ' - ' + (item.idx+1); img.loading='lazy';
+        thumb.appendChild(img);
+        box.appendChild(thumb);
+        galleryGrid.appendChild(box);
+
+        thumb.addEventListener('click', ()=> openLightbox(item.src));
+      });
+    }
+
+    /* ---------- Lightbox logic (تكبير الصورة عند الضغط) ---------- */
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    function openLightbox(src){
+      lightboxImg.src = src;
+      lightboxOverlay.classList.add('show');
+      lightboxOverlay.setAttribute('aria-hidden','false');
+    }
+    function closeLightbox(){
+      lightboxOverlay.classList.remove('show');
+      lightboxOverlay.setAttribute('aria-hidden','true');
+      lightboxImg.src = '';
+    }
+    lightboxOverlay.addEventListener('click', (e)=> {
+      if(e.target === lightboxOverlay || e.target === lightboxClose) closeLightbox();
+    });
+    document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeLightbox(); });
+
+  </script>
+
+</body>
+</html>
